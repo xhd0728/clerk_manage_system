@@ -56,3 +56,45 @@ def depart_edit(request, nid):
 
     # 重定向回部门列表
     return redirect("/depart/list/")
+
+
+def user_list(request):
+    """ 用户管理 """
+
+    # 获取所有的用户列表
+    queryset = models.UserInfo.objects.all()
+    """
+    # 用python语法实现
+    for obj in queryset:
+        print(obj.id, obj.name, obj.account, obj.create_time.strftime("%Y-%m-%d"), obj.get_gender_display(), obj.depart.title)
+        # print(obj.name, obj.depart_id)
+        # obj.depart_id # 获取数据库中存储的那个字段值
+        # obj.depart.title    # 根据id自动去关联的表中获取哪一行数据depart的对象
+    """
+    return render(request, 'user_list.html', {"queryset": queryset})
+
+
+def user_add(request):
+    """ 添加用户（原始方式） """
+    if request.method == "GET":
+        context = {
+            'gender_choices': models.UserInfo.gender_choices,
+            'depart_list': models.Department.objects.all(),
+        }
+        return render(request, 'user_add.html', context)
+
+    # 获取用户提交的数据
+    name = request.POST.get('user')
+    pwd = request.POST.get('pwd')
+    age = request.POST.get('age')
+    account = request.POST.get('ac')
+    ctime = request.POST.get('ctime')
+    gender = request.POST.get('gd')
+    depart_id = request.POST.get('dp')
+
+    # 添加到数据库中
+    models.UserInfo.objects.create(name=name, password=pwd, age=age, account=account, create_time=ctime, gender=gender, depart_id=depart_id)
+
+    # 返回到用户列表页面
+    return redirect("/user/list")
+
