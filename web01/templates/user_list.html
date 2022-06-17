@@ -8,6 +8,11 @@
                 <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                 新建用户
             </a>
+
+            <a class="btn btn-success" href="/user/model/form/add/">
+                <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                新建用户（ModelForm）
+            </a>
         </div>
 
         <div class="panel panel-default">
@@ -34,7 +39,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    {% for obj in queryset %}
+                {% for obj in queryset %}
                     <tr>
                         <th>{{ obj.id }}</th>
                         <th>{{ obj.name }}</th>
@@ -45,12 +50,12 @@
                         <th>{{ obj.get_gender_display }}</th>
                         <th>{{ obj.depart.title }}</th>
                         <td>
-                            <a class="btn btn-primary btn-xs" href="#">编辑</a>
-                            <a class="btn btn-danger btn-xs" href="#">删除</a>
+                            <a class="btn btn-primary btn-xs" href="/user/{{ obj.id }}/edit">编辑</a>
+                            <a class="btn btn-danger btn-xs" href="/user/{{ obj.id }}/delete">删除</a>
 
                         </td>
                     </tr>
-                    {% endfor %}
+                {% endfor %}
 
                 </tbody>
             </table>
