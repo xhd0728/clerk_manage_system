@@ -15,27 +15,27 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web01 import views
+from web01.views import depart, user, pretty
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
 
     # 部门管理
-    path('depart/list/', views.depart_list),
-    path('depart/add/', views.depart_add),
-    path('depart/delete/', views.depart_delete),
-    path('depart/<int:nid>/edit/', views.depart_edit),
+    path('depart/list/', depart.depart_list),
+    path('depart/add/', depart.depart_add),
+    path('depart/delete/', depart.depart_delete),
+    path('depart/<int:nid>/edit/', depart.depart_edit),
 
     # 用户管理
-    path('user/list/', views.user_list),
-    path('user/add/', views.user_add),
-    path('user/model/form/add/', views.user_model_form_add),
-    path('user/<int:nid>/edit/', views.user_edit),
-    path('user/<int:nid>/delete/', views.user_delete),
+    path('user/list/', user.user_list),
+    path('user/add/', user.user_add),
+    path('user/model/form/add/', user.user_model_form_add),
+    path('user/<int:nid>/edit/', user.user_edit),
+    path('user/<int:nid>/delete/', user.user_delete),
 
     # 靓号管理
-    path('pretty/list/', views.pretty_list),
-    path('pretty/add/', views.pretty_add),
-    path('pretty/<int:nid>/edit/', views.pretty_edit),
-    path('pretty/<int:nid>/delete/', views.pretty_delete),
+    path('pretty/list/', pretty.pretty_list),
+    path('pretty/add/', pretty.pretty_add),
+    path('pretty/<int:nid>/edit/', pretty.pretty_edit),
+    path('pretty/<int:nid>/delete/', pretty.pretty_delete),
 ]
