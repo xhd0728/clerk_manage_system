@@ -1,4 +1,10 @@
 {% extends 'layout.html' %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet"
+          href="{% static 'plugins/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.min.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -11,11 +17,11 @@
                     {% csrf_token %}
 
                     {% for field in form %}
-                    <div class="form-group">
-                        <label>{{ field.label }}</label>
-                        {{ field }}
-                        <span style="color: red">{{ field.errors.0 }}</span>
-                    </div>
+                        <div class="form-group">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                            <span style="color: red">{{ field.errors.0 }}</span>
+                        </div>
 
                     {% endfor %}
 
@@ -24,4 +30,19 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block js %}
+    <script src="{% static 'plugins/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.zh-CN.min.js' %}"></script>
+    <script>
+        $(function () {
+            $('#id_create_time').datepicker({
+                format: "yyyy-mm-dd",
+                startDate: '8',
+                language: "zh-CN",
+                autoclose: true,
+            });
+        })
+    </script>
 {% endblock %}
