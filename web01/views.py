@@ -2,6 +2,7 @@ from django.core.validators import RegexValidator, ValidationError
 from django.shortcuts import render, redirect
 from web01 import models
 from django import forms
+from django.utils.safestring import mark_safe
 
 
 # Create your views here.
@@ -173,6 +174,10 @@ def user_delete(request, nid):
 
 def pretty_list(request):
     """ 靓号列表 """
+
+    # for i in range(300):
+    #     models.PrettyNum.objects.create(mobile="18822224444", price=10, level=1, status=1)
+
     data_dict = {}
     search_data = request.GET.get('q', "")
     if search_data:
@@ -190,9 +195,88 @@ def pretty_list(request):
     # print(q2)
 
     # select * from 表 order by level desc;
-    queryset = models.PrettyNum.objects.filter(**data_dict).order_by("-level")
 
-    return render(request, 'pretty_list.html', {"queryset": queryset, "search_data": search_data})
+    # 根据用户想要访问的页码，计算出起止位置
+    page = int(request.GET.get('page', 1))
+    page_size = 10
+    start = (page - 1) * page_size
+    end = page * page_size
+
+    queryset = models.PrettyNum.objects.filter(**data_dict).order_by("-level")[start:end]
+
+    # 数据总条数
+    total_count = models.PrettyNum.objects.filter(**data_dict).order_by("-level").count()
+
+    # 计算总页码
+    total_page_count, div = divmod(total_count, page_size)
+    if div:
+        total_page_count += 1
+
+    # 计算出显示当前页的前5页，后五页
+    plus = 5
+
+    if total_page_count <= 2 * plus + 1:
+        # 数据库中的数据比较少，没有达到11页
+        start_page = 1
+        end_page = total_page_count
+    else:
+        # 数据库的数据比较多，大于11页
+        if page <= plus:
+            start_page = 1
+            end_page = 2 * plus + 1
+        else:
+            if (page + plus) > total_page_count:
+                start_page = total_page_count - 2 * plus
+                end_page = total_page_count
+            else:
+                start_page = page - plus
+                end_page = page + plus
+
+    # 页码
+    page_str_list = []
+
+    # 首页
+    page_str_list.append('<li><a href="/pretty/list/?page={}">首页</a></li>'.format(1))
+
+    # 上一页
+    if page > 1:
+        prev = '<li><a href="/pretty/list/?page={}">上一页</a></li>'.format(page - 1)
+    else:
+        prev = '<li><a href="/pretty/list/?page={}">上一页</a></li>'.format(1)
+    page_str_list.append(prev)
+
+
+    # 页面
+    for i in range(start_page, end_page + 1):
+        if i == page:
+            ele = '<li class="active"><a href="/pretty/list/?page={}">{}</a></li>'.format(i, i)
+
+        else:
+            ele = '<li><a href="/pretty/list/?page={}">{}</a></li>'.format(i, i)
+
+        page_str_list.append(ele)
+
+    # 下一页
+    if page < total_page_count:
+        aftv = '<li><a href="/pretty/list/?page={}">下一页</a></li>'.format(page + 1)
+    else:
+        aftv = '<li><a href="/pretty/list/?page={}">下一页</a></li>'.format(total_page_count)
+    page_str_list.append(aftv)
+
+    # 尾页
+    page_str_list.append('<li><a href="/pretty/list/?page={}">尾页</a></li>'.format(total_page_count))
+
+    """
+    <li><a href="/pretty/list/?page=1">1</a></li>
+    <li><a href="/pretty/list/?page=2">2</a></li>
+    <li><a href="/pretty/list/?page=3">3</a></li>
+    <li><a href="/pretty/list/?page=4">4</a></li>
+    <li><a href="/pretty/list/?page=5">5</a></li>
+    """
+    page_string = mark_safe("".join(page_str_list))
+
+    return render(request, 'pretty_list.html',
+                  {"queryset": queryset, "search_data": search_data, "page_string": page_string})
 
 
 class PrettyModelForm(forms.ModelForm):
