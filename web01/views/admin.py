@@ -73,3 +73,30 @@ def admin_add(request):
         return redirect('/admin/list')
 
     return render(request, 'change.html', {"form": form, "title": title})
+
+
+class AdminEditModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Admin
+        fields = ['username']
+
+
+def admin_edit(request, nid):
+    """ 编辑管理员 """
+
+    # 对象/None
+    row_object = models.Admin.objects.filter(id=nid).first()
+    if not row_object:
+        return render(request, 'error.html', {"msg": "数据不存在"})
+    title = "编辑管理员"
+
+    if request.method == "GET":
+        form = AdminEditModelForm(instance=row_object)
+        return render(request, 'change.html', {"form": form, "title": title})
+
+    form = AdminEditModelForm(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/list/')
+
+    return render(request, 'change.html', {"form": form, "title": title})
