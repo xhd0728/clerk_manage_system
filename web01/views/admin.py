@@ -60,6 +60,48 @@ class AdminModelForm(BootStrapModelForm):
         return confirm
 
 
+class AdminEditModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Admin
+        fields = ['username']
+
+
+class AdminResetModelForm(BootStrapModelForm):
+    confirm_password = forms.CharField(
+        label="确认密码",
+        widget=forms.PasswordInput,
+        # widget=forms.PasswordInput(render_value=True),
+    )
+
+    class Meta:
+        model = models.Admin
+        fields = ['password', 'confirm_password']
+        widgets = {
+            "password": forms.PasswordInput
+            # "password": forms.PasswordInput(render_value=True)
+        }
+
+    def clean_password(self):
+        pwd = self.cleaned_data.get("password")
+        md5_pwd = md5(pwd)
+        # 去数据库当前的密码和新输入的密码是否一致
+        exists = models.Admin.objects.filter(id=self.instance.pk, password=md5_pwd).exists()
+        if exists:
+            raise ValidationError("密码不能与之前相同")
+
+        return md5(pwd)
+
+    def clean_confirm_password(self):
+        confirm = md5(self.cleaned_data.get("confirm_password"))
+        pwd = self.cleaned_data.get("password")
+        # print(confirm, pwd)
+        if confirm != pwd:
+            raise ValidationError("密码不一致")
+
+        # 返回什么，以后保存到数据库就是什么
+        return confirm
+
+
 def admin_add(request):
     """ 添加管理员 """
     title = "新建管理员"
@@ -75,19 +117,15 @@ def admin_add(request):
     return render(request, 'change.html', {"form": form, "title": title})
 
 
-class AdminEditModelForm(BootStrapModelForm):
-    class Meta:
-        model = models.Admin
-        fields = ['username']
-
-
 def admin_edit(request, nid):
     """ 编辑管理员 """
 
     # 对象/None
     row_object = models.Admin.objects.filter(id=nid).first()
     if not row_object:
-        return render(request, 'error.html', {"msg": "数据不存在"})
+        # return render(request, 'error.html', {"msg": "数据不存在"})
+        return redirect('/admin/list/')
+
     title = "编辑管理员"
 
     if request.method == "GET":
@@ -95,6 +133,31 @@ def admin_edit(request, nid):
         return render(request, 'change.html', {"form": form, "title": title})
 
     form = AdminEditModelForm(data=request.POST, instance=row_object)
+    if form.is_valid():
+        form.save()
+        return redirect('/admin/list/')
+
+    return render(request, 'change.html', {"form": form, "title": title})
+
+
+def admin_delete(request, nid):
+    """ 删除管理员 """
+    models.Admin.objects.filter(id=nid).delete()
+    return redirect('/admin/list/')
+
+
+def admin_reset(request, nid):
+    """ 重置密码 """
+    # 对象/None
+    row_object = models.Admin.objects.filter(id=nid).first()
+    if not row_object:
+        return redirect('/admin/list/')
+    title = "重置密码 - {}".format(row_object.username)
+    if request.method == "GET":
+        form = AdminResetModelForm()
+        return render(request, 'change.html', {"form": form, "title": title})
+
+    form = AdminResetModelForm(data=request.POST, instance=row_object)
     if form.is_valid():
         form.save()
         return redirect('/admin/list/')
