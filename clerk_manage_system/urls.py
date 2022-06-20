@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from web01.views import depart, user, pretty
+from web01.views import depart, user, pretty, admin
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -38,4 +38,7 @@ urlpatterns = [
     path('pretty/add/', pretty.pretty_add),
     path('pretty/<int:nid>/edit/', pretty.pretty_edit),
     path('pretty/<int:nid>/delete/', pretty.pretty_delete),
+
+    # 管理员管理
+    path('admin/list/', admin.admin_list),
 ]
