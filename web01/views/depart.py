@@ -7,6 +7,10 @@ from web01.utils.pagination import Pagination
 def depart_list(request):
     """ 部门列表 """
 
+    # info = request.session.get("info")
+    # if not info:
+    #     return redirect('/login/')
+
     # 去数据库中获取所有的部门列表
     # [对象，对象，对象……]
     queryset = models.Department.objects.all()
@@ -21,6 +25,11 @@ def depart_list(request):
 
 def depart_add(request):
     """ 添加部门 """
+
+    # info = request.session.get("info")
+    # if not info:
+    #     return redirect('/login/')
+
     if request.method == "GET":
         return render(request, 'depart_add.html')
     # 获取用户POST提交的数据（title输入为空）
@@ -35,6 +44,11 @@ def depart_add(request):
 
 def depart_delete(request):
     """ 删除部门 """
+
+    # info = request.session.get("info")
+    # if not info:
+    #     return redirect('/login/')
+
     # URL传参为GET类型
     # 获取id
     nid = request.GET.get('nid')

@@ -9,6 +9,13 @@ from web01.utils.enctypt import md5
 
 def admin_list(request):
     """ 管理员列表 """
+    # info_dict = request.session["info"]
+
+    # 检查用户是否已经登录，已登陆继续向下走，未登录跳转回登陆页面
+    # 用户发来请求，获取cookie随机字符串，拿着随机字符串看看session中有没有
+    # info = request.session.get("info")
+    # if not info:
+    #     return redirect('/login/')
 
     # 搜索
     data_dict = {}

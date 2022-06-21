@@ -55,3 +55,10 @@ def login(request):
         return redirect("/admin/list/")
 
     return render(request, 'login.html', {'form': form})
+
+
+def logout(request):
+    """ 注销 """
+    request.session.clear()
+
+    return redirect('/login/')
