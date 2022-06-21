@@ -7,7 +7,7 @@ class AuthMiddleware(MiddlewareMixin):
     def process_request(self, request):
         # 0.排除那些不需要登录就能访问的页面
         # request.path_info 获取当前用户请求的url /login/
-        if request.path_info == "/login/":
+        if request.path_info in ["/login/", "/image/code/"]:
             return
         # 如果方法中没有返回值，None
         # 如果有返回值 HttpResponse，render，redirect
