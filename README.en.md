@@ -1,36 +1,33 @@
-# clerk_manage_system
-
-#### Description
-Django study, with MySQL, python3.9.7, html5
-
-#### Software Architecture
-Software architecture description
-
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
-
-
-#### Gitee Feature
-
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+# clerk_ manage_ system
+####Introduction
+Django study practice project
+Pass user management system
+####Software architecture (full stack development, tight coupling)
+#####Front end:
+- HTML
+- BootStrap
+- jQuery. js
+#####Back end:
+- Python 3.9.7
+- MySQL 8.0
+- Django 4.0.5
+#####Development tool:
+- PyCharm 2022.1.2 (Professional Edition)
+- Navicat Premium 15
+- Windows Powershell
+#####Development setting:
+- Windows 10 21H2
+- Ubuntu 20.04 LTS x86_ sixty-four
+####Installation tutorial
+1. Pycharm imports directly into project folder
+2. In / Clerk_ manage_ system/settings. Py configuration database
+3. Run command ` management Py maketransitions ` and ` management Py migrate ` reconstructed database
+4. Start the project, browser access` http://127.0.0.1:8000/admin/list/ `
+####Caveats
+1. No numerical limit when jumping page numbers manually, no solution at present
+2. This project has not been completed but may be operational
+####Participation contributions
+1. Fork this warehouse
+2. New feat_ XXX branch
+3. Submission code
+4. New pull request
