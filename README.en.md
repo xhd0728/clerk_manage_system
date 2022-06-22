@@ -33,9 +33,9 @@ Pass user management system
 #### Installation tutorial
 
 1. Pycharm imports directly into project folder
-2. In / Clerk_ manage_ system/settings. Py configuration database
-3. Run command ` management Py maketransitions ` and ` management Py migrate ` reconstructed database
-4. Start the project, browser access` http://127.0.0.1:8000/admin/list/ `
+2. In `/clerk_ manage_ system/settings.py` configuration database
+3. Run command `management.py maketransitions` and `management.py migrate` reconstructed database
+4. Start the project, browser access `http://127.0.0.1:8000/admin/list/` or `http://localhost:8000/admin/list/`
 
 #### Caveats
 

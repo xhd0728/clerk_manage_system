@@ -36,7 +36,7 @@ Django study实践项目
 1. Pycharm直接导入项目文件夹
 2. 在/clerk_manage_system/settings.py配置数据库
 3. 运行命令`manage.py makemigrations`和`manage.py migrate`重建数据库
-4. 启动项目，浏览器访问`http://127.0.0.1:8000/admin/list/`
+4. 启动项目，浏览器访问`http://127.0.0.1:8000/admin/list/`或`http://localhost:8000/admin/list/`
 
 #### 注意事项
 
