@@ -1,11 +1,11 @@
 import json
 from django import forms
 from django.shortcuts import render, HttpResponse
-from django.forms.utils import ErrorDict
 from django.views.decorators.csrf import csrf_exempt
 from django.http import JsonResponse
 from web01.utils.bootstrap import BootStrapModelForm
 from web01 import models
+from web01.utils.pagination import Pagination
 
 
 class TaskModelForm(BootStrapModelForm):
@@ -20,8 +20,16 @@ class TaskModelForm(BootStrapModelForm):
 
 def task_list(request):
     """ 任务列表 """
+    # 去数据库获取所有的任务
+    queryset = models.Task.objects.all().order_by('-id')
+    page_object = Pagination(request, queryset)
     form = TaskModelForm()
-    return render(request, "task_list.html", {"form": form})
+    context = {
+        "form": form,
+        "queryset": page_object.page_queryset,
+        "page_string": page_object.html(),
+    }
+    return render(request, "task_list.html", context)
 
 
 @csrf_exempt

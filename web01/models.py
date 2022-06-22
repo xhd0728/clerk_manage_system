@@ -77,7 +77,9 @@ class Task(models.Model):
         (2, "重要"),
         (3, "临时"),
     }
-    levl = models.SmallIntegerField(verbose_name="级别", choices=level_choices, default=1)
+    level = models.SmallIntegerField(verbose_name="级别", choices=level_choices, default=1)
     title = models.CharField(verbose_name="标题", max_length=64)
     detail = models.TextField(verbose_name="详细信息")
+
+    # user_id
     user = models.ForeignKey(verbose_name="负责人", to="Admin", on_delete=models.CASCADE)
