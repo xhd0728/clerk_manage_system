@@ -1,245 +1,245 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <div class="container">
-        <div style="margin-bottom: 10px">
-            <input type="button" value="新建订单1" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-            <input id="btnAdd" type="button" value="新建订单2" class="btn btn-primary">
-        </div>
-
-        <div class="panel panel-default">
-            <!-- Default panel contents -->
-            <div class="panel-heading">
-                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                订单列表
-
-            </div>
-
-            <!-- Table -->
-            <table class="table table-bordered">
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>订单号</th>
-                    <th>名称</th>
-                    <th>价格</th>
-                    <th>状态</th>
-                    <th>管理员</th>
-                    <th>操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for obj in queryset %}
-                    <tr uid="{{ obj.id }}">
-                        <th>{{ obj.id }}</th>
-                        <th>{{ obj.oid }}</th>
-                        <th>{{ obj.title }}</th>
-                        <th>{{ obj.price }}</th>
-                        <th>{{ obj.get_status_display }}</th>
-                        <th>{{ obj.admin.username }}</th>
-
-                        <td>
-                            <input uid="{{ obj.id }}" type="button" class="btn btn-primary btn-xs btn-edit" value="编辑">
-                            <input uid="{{ obj.id }}" class="btn btn-danger btn-xs btn-delete" type="button" value="删除">
-                        </td>
-                    </tr>
-                {% endfor %}
-
-                </tbody>
-            </table>
-        </div>
-
-        <ul class="pagination">
-            {{ page_string }}
-        </ul>
+<div class="container">
+    <div style="margin-bottom: 10px">
+        <input type="button" value="新建订单1" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+        <input id="btnAdd" type="button" value="新建订单2" class="btn btn-primary">
     </div>
 
-    <!-- 新建/编辑订单（对话框） -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="myModalLabel">新建</h4>
-                </div>
-                <div class="modal-body">
-                    <form id="formAdd" novalidate>
-                        <div class="clearfix">
-                            {% for field in form %}
-                                <div class="col-xs-6">
-                                    <div class="form-group" style="position: relative;margin-bottom: 20px">
-                                        <label>{{ field.label }}</label>
-                                        {{ field }}
-                                        <span class="error-msg" style="color: red;position: absolute"></span>
-                                    </div>
-                                </div>
-                            {% endfor %}
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">
+            <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+            订单列表
+
+        </div>
+
+        <!-- Table -->
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>订单号</th>
+                <th>名称</th>
+                <th>价格</th>
+                <th>状态</th>
+                <th>管理员</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for obj in queryset %}
+            <tr uid="{{ obj.id }}">
+                <th>{{ obj.id }}</th>
+                <th>{{ obj.oid }}</th>
+                <th>{{ obj.title }}</th>
+                <th>{{ obj.price }}</th>
+                <th>{{ obj.get_status_display }}</th>
+                <th>{{ obj.admin.username }}</th>
+
+                <td>
+                    <input uid="{{ obj.id }}" type="button" class="btn btn-primary btn-xs btn-edit" value="编辑">
+                    <input uid="{{ obj.id }}" class="btn btn-danger btn-xs btn-delete" type="button" value="删除">
+                </td>
+            </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+    <ul class="pagination">
+        {{ page_string }}
+    </ul>
+</div>
+
+<!-- 新建/编辑订单（对话框） -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新建</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formAdd" novalidate>
+                    <div class="clearfix">
+                        {% for field in form %}
+                        <div class="col-xs-6">
+                            <div class="form-group" style="position: relative;margin-bottom: 20px">
+                                <label>{{ field.label }}</label>
+                                {{ field }}
+                                <span class="error-msg" style="color: red;position: absolute"></span>
+                            </div>
                         </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                    <button id="btnSave" type="button" class="btn btn-primary">保存</button>
-                </div>
+                        {% endfor %}
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button id="btnSave" type="button" class="btn btn-primary">保存</button>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- 删除订单（对话框） -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="alert alert-danger alert-dismissible fade in" role="alert">
-                <h4>是否确定删除？</h4>
-                <p style="margin: 10px 0;">删除后所有关联的相关数据都会被删除</p>
-                <p style="text-align: right;">
-                    <button id="btnConfirmDelete" type="button" class="btn btn-danger">确定</button>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-                </p>
-            </div>
+<!-- 删除订单（对话框） -->
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="alert alert-danger alert-dismissible fade in" role="alert">
+            <h4>是否确定删除？</h4>
+            <p style="margin: 10px 0;">删除后所有关联的相关数据都会被删除</p>
+            <p style="text-align: right;">
+                <button id="btnConfirmDelete" type="button" class="btn btn-danger">确定</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </p>
         </div>
     </div>
+</div>
 {% endblock %}
 
 {% block js %}
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        var DELETE_ID;
+    var DELETE_ID;
 
-        $(function () {
-            bindBtnAddEvent();
-            bindBtnSaveEvent();
-            bindBtnDeleteEvent();
-            bindBtnConfirmDeleteEvent();
-            bindBtnEditEvent();
-        })
+    $(function () {
+        bindBtnAddEvent();
+        bindBtnSaveEvent();
+        bindBtnDeleteEvent();
+        bindBtnConfirmDeleteEvent();
+        bindBtnEditEvent();
+    })
 
-        function bindBtnAddEvent() {
-            $("#btnAdd").click(function () {
-                $("#formAdd")[0].reset();
+    function bindBtnAddEvent() {
+        $("#btnAdd").click(function () {
+            $("#formAdd")[0].reset();
 
-                //设置对话框的标题
-                $("#myModalLabel").text("新建");
+            //设置对话框的标题
+            $("#myModalLabel").text("新建");
 
-                // 点击新建按钮ui，显示对话框
-                $('#myModal').modal('show');
-            });
-        }
+            // 点击新建按钮ui，显示对话框
+            $('#myModal').modal('show');
+        });
+    }
 
-        function bindBtnSaveEvent() {
+    function bindBtnSaveEvent() {
 
-            $("#btnSave").click(function () {
-                //清除错误信息
-                $(".error-msg").empty();
-                //向后台发送请求
-                $.ajax({
-                    url: "/order/add/",
-                    type: "post",
-                    data: $("#formAdd").serialize(),
-                    dataType: "JSON",
-                    success: function (res) {
-                        if (res.status) {
-                            //alert("创建成功");
-                            //清空表单 $("#formAdd") 是jQuery对象 -> $("#formAdd")[0] 是DOM对象
-                            $("#formAdd")[0].reset();
-                            //关闭对话框
-                            $("#myModal").modal("hide");
-                            //刷新页面
-                            location.reload();
-                        } else {
-                            //把错误信息显示到对话框中
-                            $.each(res.error, function (name, errorList) {
-                                $("#id_" + name).next().text(errorList[0]);
-                            });
-                        }
+        $("#btnSave").click(function () {
+            //清除错误信息
+            $(".error-msg").empty();
+            //向后台发送请求
+            $.ajax({
+                url: "/order/add/",
+                type: "post",
+                data: $("#formAdd").serialize(),
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        //alert("创建成功");
+                        //清空表单 $("#formAdd") 是jQuery对象 -> $("#formAdd")[0] 是DOM对象
+                        $("#formAdd")[0].reset();
+                        //关闭对话框
+                        $("#myModal").modal("hide");
+                        //刷新页面
+                        location.reload();
+                    } else {
+                        //把错误信息显示到对话框中
+                        $.each(res.error, function (name, errorList) {
+                            $("#id_" + name).next().text(errorList[0]);
+                        });
                     }
-                })
+                }
+            })
 
-            });
-        }
+        });
+    }
 
-        function bindBtnDeleteEvent() {
-            $(".btn-delete").click(function () {
-                //alert("点击了删除");
-                //显示删除对话框
-                $("#deleteModal").modal('show');
-                //获取当前行的ID，并赋值给全局变量
-                DELETE_ID = $(this).attr("uid");
+    function bindBtnDeleteEvent() {
+        $(".btn-delete").click(function () {
+            //alert("点击了删除");
+            //显示删除对话框
+            $("#deleteModal").modal('show');
+            //获取当前行的ID，并赋值给全局变量
+            DELETE_ID = $(this).attr("uid");
 
-            });
-        }
+        });
+    }
 
-        function bindBtnConfirmDeleteEvent() {
-            $("#btnConfirmDelete").click(function () {
-                //确认删除按钮，将全局变量设置的要删除的ID发送给后台
-                $.ajax({
-                    url: "/order/delete/", // => /order/delete/?uid=123
-                    //url: "/order/" + DELETE_ID + "/delete/", // => /order/123/delete/
-                    type: "GET",
-                    data: {
-                        uid: DELETE_ID
-                    },
-                    dataType: "JSON",
-                    success: function (res) {
-                        if (res.status) {
-                            //alert("删除成功");
+    function bindBtnConfirmDeleteEvent() {
+        $("#btnConfirmDelete").click(function () {
+            //确认删除按钮，将全局变量设置的要删除的ID发送给后台
+            $.ajax({
+                url: "/order/delete/", // => /order/delete/?uid=123
+                //url: "/order/" + DELETE_ID + "/delete/", // => /order/123/delete/
+                type: "GET",
+                data: {
+                    uid: DELETE_ID
+                },
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
+                        //alert("删除成功");
 
-                            //隐藏删除框
-                            //$("#deleteModal").modal('hide');
+                        //隐藏删除框
+                        //$("#deleteModal").modal('hide');
 
-                            //在页面上将当前数据删除（js)
-                            //$("tr[uid='" + DELETE_ID + "']").remove();
+                        //在页面上将当前数据删除（js)
+                        //$("tr[uid='" + DELETE_ID + "']").remove();
 
-                            //要删除的ID变成0
-                            //DELETE_ID = 0;
+                        //要删除的ID变成0
+                        //DELETE_ID = 0;
 
-                            //简单的思路
-                            location.reload();
+                        //简单的思路
+                        location.reload();
 
-                        } else {
-                            //删除失败
-                            alert(res.error);
-                        }
+                    } else {
+                        //删除失败
+                        alert(res.error);
                     }
-                })
-            });
-        }
+                }
+            })
+        });
+    }
 
-        function bindBtnEditEvent() {
-            $(".btn-edit").click(function () {
-                $("#formAdd")[0].reset();
+    function bindBtnEditEvent() {
+        $(".btn-edit").click(function () {
+            $("#formAdd")[0].reset();
 
-                var currentId = $(this).attr("uid");
+            var currentId = $(this).attr("uid");
 
 
-                //发送Ajax请求，去后端获取当前行的相关数据
-                $.ajax({
-                    url: "/order/detail/",
-                    type: "get",
-                    data: {
-                        uid: currentId,
-                    },
-                    dataType: "JSON",
-                    success: function (res) {
-                        if (res.status) {
+            //发送Ajax请求，去后端获取当前行的相关数据
+            $.ajax({
+                url: "/order/detail/",
+                type: "get",
+                data: {
+                    uid: currentId,
+                },
+                dataType: "JSON",
+                success: function (res) {
+                    if (res.status) {
 
-                            //将数据赋值到对话框中的标签中
-                            $.each(res.data, function (name, value) {
-                                $("#id_" + name).val(value);
-                            });
-                            //修改对话框的标题
-                            $("#myModalLabel").text("编辑");
+                        //将数据赋值到对话框中的标签中
+                        $.each(res.data, function (name, value) {
+                            $("#id_" + name).val(value);
+                        });
+                        //修改对话框的标题
+                        $("#myModalLabel").text("编辑");
 
-                            //点击编辑，显示对话框
-                            $('#myModal').modal('show');
-                        } else {
-                            alert(res.error);
-                        }
+                        //点击编辑，显示对话框
+                        $('#myModal').modal('show');
+                    } else {
+                        alert(res.error);
                     }
-                })
-                //在对话框中默认看到
-            });
-        }
+                }
+            })
+            //在对话框中默认看到
+        });
+    }
 
-    </script>
+</script>
 {% endblock %}
