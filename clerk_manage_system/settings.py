@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'clerk_manage_system.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'cmsys',
+        'NAME': 'gx_day15',
         'USER': 'root',
-        'PASSWORD': 'root',
+        'PASSWORD': 'abc123',
         'HOST': '127.0.0.1',
         'PORT': 3306,
     }

@@ -1,5 +1,5 @@
 from django.utils.deprecation import MiddlewareMixin
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import redirect
 
 
 class AuthMiddleware(MiddlewareMixin):

@@ -1,7 +1,6 @@
-from django.shortcuts import render, redirect, HttpResponse
+from django.shortcuts import render, redirect
 from web01 import models
 from web01.utils.pagination import Pagination
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from openpyxl import load_workbook
 
 
